@@ -1,0 +1,64 @@
+<idea-plugin>
+  <id>com.alged.bfe</id>
+  <name>Build file explorer</name>
+  <version>0.0.1</version>
+  <vendor email="alexander.gorodok.ed@gmail.com" url="https://github.com/Malligan/Build-file-explorer">BFE home</vendor>
+
+  <description><![CDATA[
+
+      <h1>Build File Explorer</h1>
+      <br/>
+
+      <a href="https://github.com/Malligan/Build-file-explorer">Source</a> |
+      <a href="mailto:alexander.gorodok.ed@gmail.com">Author</a>
+      <br/>
+      <br/>
+
+      <b>Build File Explorer</b> in current version is a plugin for managing some gradle build file options
+      <i>
+        (useful addition)
+      </i>
+      <br/>
+      <br/>
+
+      <b>Usage</b>
+      <br/>
+        1. Tools menu
+      <br/>
+        2. Build file explorer
+      <br/>
+      <br/>
+
+
+      <b>Features</b>
+      <ul>
+        <li>fast modules switching</li>
+      </ul>
+
+    ]]>
+  </description>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="173.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+
+  <depends>com.intellij.modules.lang</depends>
+
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+    <toolWindow id="Build File Explorer" icon="/BuildFileExplorer/Icons/bfe_tool_13x13.png" anchor="right" factoryClass="com.alged.bfe.ExplorerToolWindowFactory"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+    <group id="BuildFileExplorer.SampleMenu" text="_BuildFileExplorer" description="manage your build file">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+      <separator/>
+      <action id="BuildFileExplorer.InitialAction" class="com.alged.bfe.InitialExplorerAction" text="Build File Explorer" description="just do it" />
+    </group>
+  </actions>
+
+</idea-plugin>
