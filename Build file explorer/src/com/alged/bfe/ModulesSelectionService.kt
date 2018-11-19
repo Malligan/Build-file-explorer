@@ -3,7 +3,7 @@ package com.alged.bfe
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiFile
 
-class ModulesSelectionService(var configuration: ModulesSelectionConfiguration) {
+class ModulesSelectionService(private val configuration: ModulesSelectionConfiguration) {
 
     fun buildTableModel(file: PsiFile): MutableList<RowModelWithNode> {
         val localTableModel: MutableList<RowModelWithNode> = mutableListOf()
