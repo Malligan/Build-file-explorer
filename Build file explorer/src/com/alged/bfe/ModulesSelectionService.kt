@@ -1,5 +1,6 @@
 package com.alged.bfe
 
+import com.alged.bfe.model.RowModelWithNode
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiFile
 
@@ -53,12 +54,6 @@ class ModulesSelectionService(private val configuration: ModulesSelectionConfigu
         }
     }
 }
-
-data class RowModelWithNode(val moduleName: String,
-                            val moduleEnabled: Boolean,
-                            val moduleNode: ASTNode?,
-                            val moduleOriginal: Boolean = false,
-                            val header: Boolean = false)
 
 data class ModulesSelectionConfiguration(val modulePath: String = """('[^:]\S+')+""",
                                          val moduleEndings: List<String> = listOf("/stub"),

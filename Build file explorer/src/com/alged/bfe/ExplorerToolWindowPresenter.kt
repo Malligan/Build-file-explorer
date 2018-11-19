@@ -1,5 +1,6 @@
 package com.alged.bfe
 
+import com.alged.bfe.model.RowModelWithNode
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 import javax.swing.table.DefaultTableModel
