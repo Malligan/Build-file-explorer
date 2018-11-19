@@ -18,10 +18,7 @@ class ExplorerToolWindowPresenter(var project: Project, var tableModel: DefaultT
 
     private fun syncModules() {
         tableModel.rowCount = 0 //remove all rows
-
-        for (settingsFile in settingsFiles) {
-            processSettingsFile(settingsFile)
-        }
+        settingsFiles.forEach { processSettingsFile(it) }
     }
 
     private fun processSettingsFile(settingsFile: PsiFile) {
@@ -42,26 +39,5 @@ class ExplorerToolWindowPresenter(var project: Project, var tableModel: DefaultT
         }
 
         tableModel.fireTableDataChanged()
-    }
-
-    private fun createTableModel(): DefaultTableModel {
-        val defaultTableModel = object : DefaultTableModel() {
-            override fun getColumnClass(column: Int): Class<*> {
-                return when (column) {
-                    0 -> String::class.java
-                    1 -> Boolean::class.java
-                    else -> String::class.java
-                }
-            }
-
-            override fun isCellEditable(row: Int, column: Int): Boolean {
-                return column != 0 //module names at 0 column with disabled editing
-            }
-        }
-
-        defaultTableModel.addColumn("module name")
-        defaultTableModel.addColumn("module availability")
-
-        return defaultTableModel
     }
 }
