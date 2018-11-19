@@ -10,7 +10,9 @@ class ModulesSelectionService(private val configuration: ModulesSelectionConfigu
         val fileASTNode = file.node
         val nodes = fileASTNode.getChildren(null)
 
-        val projectNodes: MutableList<ASTNode>  = (nodes.filter { it.text.contains("project") }).toMutableList()
+        val projectNodes: MutableList<ASTNode> = nodes.filter {
+            it.text.contains("project")
+        }.toMutableList()
 
         while (projectNodes.isNotEmpty()) {
             proceedNode(localTableModel, projectNodes.first(), projectNodes)
