@@ -45,6 +45,7 @@
        on how to target different products -->
 
   <depends>com.intellij.modules.lang</depends>
+  <depends>org.intellij.groovy</depends>
 
 
   <extensions defaultExtensionNs="com.intellij">
