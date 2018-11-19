@@ -59,7 +59,6 @@ data class RowModelWithNode(val moduleName: String,
                             val header: Boolean = false)
 
 data class ModulesSelectionConfiguration(val modulePath: String = """('[^:]\S+')+""",
-                                         val moduleName: String = """('[:]\S+')+""",
                                          val moduleEndings: List<String> = listOf("/stub"),
                                          val dualModuleMode: Boolean = moduleEndings.count() == 1)
 
