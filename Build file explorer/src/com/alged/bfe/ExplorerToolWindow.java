@@ -1,12 +1,7 @@
 package com.alged.bfe;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.tree.LeafElement;
-import com.intellij.psi.impl.source.tree.PlainTextASTFactory;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 
@@ -28,20 +23,21 @@ public class ExplorerToolWindow {
     private JButton applyConfigurationButton;
 
     public ExplorerToolWindow(ToolWindow toolWindow, Project project) {
+        modulesConfigurationTable.setRowSelectionAllowed(false);
         hideToolWindowButton.addActionListener(e -> toolWindow.hide(null));
         syncModulesButton.addActionListener(e -> syncModules());
-        modulesConfigurationTable.setRowSelectionAllowed(false);
+        applyConfigurationButton.addActionListener(e -> applyConfiguration());
 
-        presenter = new ExplorerToolWindowPresenter(project, createTableModel());
+        presenter = new ExplorerToolWindowPresenter(project, createUiTableModel());
 
-        modulesConfigurationTable.setModel(presenter.getTableModel());
+        modulesConfigurationTable.setModel(presenter.getUiTableModel());
     }
 
     public JPanel getContent() {
         return myToolWindowContent;
     }
 
-    private DefaultTableModel createTableModel() {
+    private DefaultTableModel createUiTableModel() {
         DefaultTableModel model = new DefaultTableModel() {
 
             @Override
@@ -71,21 +67,9 @@ public class ExplorerToolWindow {
 
     private void syncModules() {
         presenter.updateSettingsFilesWithSync(FilenameIndex.getFilesByName(presenter.getProject(), "settings.gradle", GlobalSearchScope.allScope(presenter.getProject())));
-
-        //Messages.showMessageDialog(getCurrentProject(), getSelectedSettingsFile().getContainingDirectory().getName(), "test", Messages.getInformationIcon());
     }
 
-    private void fileEditingTest(ASTNode fileASTNode) {
-        PlainTextASTFactory factory = new PlainTextASTFactory();
-        LeafElement editedStringPlainTextElement = factory.createLeaf(PlainTextTokenTypes.PLAIN_TEXT, fileASTNode.getLastChildNode().getText() + "\n//edited!");
-
-        try {
-            WriteCommandAction.runWriteCommandAction(presenter.getProject(), () -> {
-                fileASTNode.replaceChild(fileASTNode.getLastChildNode(), editedStringPlainTextElement);
-                fileASTNode.getChildren(null);
-            });
-        } catch (Throwable throwable) {
-            //avoid
-        }
+    private void applyConfiguration() {
+        presenter.applyModulesConfiguration();
     }
 }
