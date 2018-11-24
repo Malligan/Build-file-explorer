@@ -1,21 +1,18 @@
 package com.alged.bfe
 
 import com.alged.bfe.extensions.getModules
-import com.alged.bfe.extensions.inverseNodeCommenting
 import com.alged.bfe.model.Module
 import com.alged.bfe.model.ModulesSelectionConfiguration
 import com.alged.bfe.extensions.getVisibleModules
-import com.intellij.lang.ASTNode
-import com.intellij.openapi.command.WriteCommandAction
+import com.alged.bfe.extensions.inverseNodeCommentingInParent
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
 import javax.swing.table.DefaultTableModel
 
-class ExplorerToolWindowPresenter(var project: Project, var uiTableModel: DefaultTableModel) {
-    private var configuration: ModulesSelectionConfiguration = ModulesSelectionConfiguration()
+class ExplorerToolWindowPresenter(private val project: Project, private val uiTableModel: DefaultTableModel) {
+    private var configuration = ModulesSelectionConfiguration()
     private var allModules = listOf<Module>()
-
-    var settingsFiles: Array<PsiFile> = arrayOf()
+    private var settingsFiles = arrayOf<PsiFile>()
 
     fun updateSettingsFilesWithSync(newSettingsFiles: Array<PsiFile>) {
         settingsFiles = newSettingsFiles
@@ -23,26 +20,14 @@ class ExplorerToolWindowPresenter(var project: Project, var uiTableModel: Defaul
     }
 
     fun applyModulesConfiguration() {
-        /*
-        uiTableModel.dataVector
+        val indexedVisibleModulesWithNodes = allModules.getVisibleModules(configuration).withIndex().filter { it.value.node != null }
+        val editedOriginalModules = indexedVisibleModulesWithNodes
+                .filter { uiTableModel.getValueAt(it.index, 1) as Boolean != it.value.enabled } //0 - name, 1 - enabled
+                .map { it.value }
+        val allModulesForInversing = editedOriginalModules.flatMap(Module::group)
+        allModulesForInversing.forEach { it.node?.let { node -> it.file?.node?.inverseNodeCommentingInParent(node, project) } }
 
-        for ((index, row) in array.withIndex()) {
-
-        }*/
-
-        allModules.getVisibleModules(configuration).withIndex()
-
-        fileEditingTest(settingsFiles[0].node, settingsFiles[0].node.lastChildNode)
-    }
-
-    private fun fileEditingTest(fileNode: ASTNode, nodeForInverting: ASTNode) {
-        try {
-            WriteCommandAction.runWriteCommandAction(project) {
-                fileNode.replaceChild(nodeForInverting, nodeForInverting.inverseNodeCommenting())
-            }
-        } catch (throwable: Throwable) {
-            //avoid
-        }
+        syncModules()
     }
 
     private fun syncModules() {

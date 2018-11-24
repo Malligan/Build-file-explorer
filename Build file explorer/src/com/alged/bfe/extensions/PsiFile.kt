@@ -9,7 +9,7 @@ fun PsiFile.getModules(configuration: ModulesSelectionConfiguration): List<Modul
     val modulesWithSeparator = mutableListOf<Module>()
 
     val projectNodes: MutableList<ASTNode> = this.node.getChildren(null).filter { it.text.contains("project") }.toMutableList()
-    val allModules = projectNodes.map { Module.fromASTNode(it, configuration) }
+    val allModules = projectNodes.map { Module.fromASTNode(it, configuration, this) }
     val correctNamedModules = allModules.filter { it.name != "null" }
     val correctGroupedModules = correctNamedModules.groupModules().filter { it.group.count() > 1 }
 

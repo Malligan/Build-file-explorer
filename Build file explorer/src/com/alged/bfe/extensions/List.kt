@@ -16,9 +16,8 @@ fun List<Module>.groupModules(): List<Module> {
     return groupedModules
 }
 
-fun List<Module>.getVisibleModules(configuration: ModulesSelectionConfiguration): List<Module> {
-    return when { //dual mode -> separators(node == null) and originals added
-        configuration.dualModuleMode -> this.filter { it.original || it.node == null }
-        else -> this
-    }
-}
+fun List<Module>.getVisibleModules(configuration: ModulesSelectionConfiguration): List<Module> =
+        when { //dual mode -> separators(node == null) and originals added
+            configuration.dualModuleMode -> this.filter { it.original || it.node == null }
+            else -> this
+        }
