@@ -2,6 +2,7 @@ package com.alged.bfe.extensions
 
 import com.alged.bfe.model.Module
 import com.alged.bfe.model.ModulesSelectionConfiguration
+import com.intellij.psi.impl.source.DummyHolderElement
 
 fun List<Module>.groupModules(): List<Module> {
     val groupedModules = mutableListOf<Module>()
@@ -18,6 +19,6 @@ fun List<Module>.groupModules(): List<Module> {
 
 fun List<Module>.getVisibleModules(configuration: ModulesSelectionConfiguration): List<Module> =
         when { //dual mode -> separators(node == null) and originals added
-            configuration.dualModuleMode -> this.filter { it.original || it.node == null }
+            configuration.dualModuleMode -> this.filter { it.original || it.node is DummyHolderElement }
             else -> this
         }

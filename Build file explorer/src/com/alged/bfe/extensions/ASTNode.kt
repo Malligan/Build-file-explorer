@@ -22,7 +22,7 @@ fun ASTNode.haveOriginalName(configuration: ModulesSelectionConfiguration): Bool
 fun ASTNode.inverseNodeCommenting(): ASTNode =
         PlainTextASTFactory().createLeaf(PlainTextTokenTypes.PLAIN_TEXT, this.text.inverseStringCommenting()) as ASTNode
 
-fun ASTNode.inverseNodeCommentingInParent(nodeForInverting: ASTNode, project: Project) {
+fun ASTNode.inverseNodeCommentingInFile(nodeForInverting: ASTNode, project: Project) {
     try {
         WriteCommandAction.runWriteCommandAction(project) {
             this.replaceChild(nodeForInverting, nodeForInverting.inverseNodeCommenting())

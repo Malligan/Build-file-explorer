@@ -2,6 +2,7 @@ package com.alged.bfe;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 
@@ -66,7 +67,9 @@ public class ExplorerToolWindow {
     }
 
     private void syncModules() {
-        presenter.updateSettingsFilesWithSync(FilenameIndex.getFilesByName(presenter.getProject(), "settings.gradle", GlobalSearchScope.allScope(presenter.getProject())));
+        GlobalSearchScope searchScope = GlobalSearchScope.allScope(presenter.getProject());
+        PsiFile[] files = FilenameIndex.getFilesByName(presenter.getProject(), "settings.gradle", searchScope);
+        presenter.updateSettingsFilesWithSync(files);
     }
 
     private void applyConfiguration() {
