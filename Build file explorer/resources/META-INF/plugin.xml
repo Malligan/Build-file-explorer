@@ -14,7 +14,7 @@
       <br/>
       <br/>
 
-      <b>Build File Explorer</b> in current version is a plugin for managing some gradle build file options
+      <b>Build File Explorer</b> in current version is a plugin for managing some gradle build file options or preferences
       <i>
         (useful addition)
       </i>
@@ -28,6 +28,14 @@
         2. Enable or disable needed modules.
       <br/>
         3. Apply configuration.
+      <br/>
+        Actual convention for modules selection editing:
+       <br/>
+        'modulePath' and 'modulePath/stub' selected and used for switching.
+       <br/>
+        Enabled module - module with 'modulePath' uncommented, module with 'modulePath/stub' commented
+       <br/>
+        Disable module - module with 'modulePath/stub' uncommented, module with 'modulePath' commented
       <br/>
       <br/>
 
